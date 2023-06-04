@@ -1,9 +1,21 @@
-const loadMEals = (searchText) => {
+// const loadMEals = (searchText) => {
+//   const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+//   fetch(url)
+//     .then((Res) => Res.json())
+//     .then((data) => displayMeals(data.meals));
+// };
+
+const loadMEals2 = async (searchText) => {
+  try{
   const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
-  fetch(url)
-    .then((Res) => Res.json())
-    .then((data) => displayMeals(data.meals));
-};
+  const res = await fetch(url);
+  const data = await res.json();
+  displayMeals(data.meals);
+  }
+  catch(error){
+    console.log(error);
+  }
+} 
 
 const displayMeals = (meals) => {
   const ParentDiv = document.getElementById("Container");
@@ -33,19 +45,20 @@ SearchMeal = () => {
   const searchText = document.getElementById("Search_input").value;
   // search meals
   console.log(searchText);
-  loadMEals(searchText);
+  loadMEals2(searchText);
 };
 
-const loadMealDetails = idMeal =>{
-  const url = (`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`)
+const loadMealDetails = (idMeal) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`;
   fetch(url)
     .then((Res) => Res.json())
     .then((data) => displaymealdetails(data.meals[0]));
-}
+};
 
-const displaymealdetails = meal => {
-  document.getElementById('MealDetailsLabel').innerText = meal.strMeal;
-  document.getElementById('mealDetailsImg').innerHTML = 
-  `<img class= "img-fluid" src="${meal.strMealThumb}" alt="">`
-}
-loadMEals("rice");
+const displaymealdetails = (meal) => {
+  document.getElementById("MealDetailsLabel").innerText = meal.strMeal;
+  document.getElementById(
+    "mealDetailsImg"
+  ).innerHTML = `<img class= "img-fluid" src="${meal.strMealThumb}" alt="">`;
+};
+loadMEals2("rice");
